@@ -16,13 +16,12 @@ pragma solidity >=0.5.15 <0.6.0;
 
 import "tinlake-auth/auth.sol";
 
-interface MemberListLike{
-     function update(address usr, uint validUntil) external;
-     function update(address[] memory users, uint valueUntil) external;
+contract MemberlistLike {
+    function updateMember(address usr, uint validUntil) public;
+    function updateMembers(address[] memory users, uint validUntil) public;
 }
 
-// Wrapper contract for permission restriction on the assessor.
-// This contract ensures that only the maxReserve size of the pool can be set
+// Wrapper contract for permission restriction on the memberlists.
 contract MemberAdmin is Auth {
     constructor() public {
         wards[msg.sender] = 1;
@@ -30,16 +29,18 @@ contract MemberAdmin is Auth {
 
     // Admins can manipulate memberlists
     mapping (address => uint) public admins;
-    function relyAdmin(address usr) public auth note { admin[usr] = 1; }
-    function denyAdmin(address usr) public auth note { admin[usr] = 0; }
-    modifier admin { require(admin[msg.sender] == 1); _; }
 
-    function update(address list, address usr, uint value) public external admin {
-        MemberListLike(list).update(usr, value)
-    }
-    function update(address list, address[] memory users, uint valueUntil) external admin {
-        MemberListLike(list).update(users, value)
+    modifier admin { require(admins[msg.sender] == 1); _; }
+
+    function relyAdmin(address usr) public auth note { admins[usr] = 1; }
+    function denyAdmin(address usr) public auth note { admins[usr] = 0; }
+
+    function updateMember(address list, address usr, uint validUntil) public admin {
+        MemberlistLike(list).updateMember(usr, validUntil);
     }
 
+    function updateMembers(address list, address[] memory users, uint validUntil) public admin {
+        MemberlistLike(list).updateMembers(users, validUntil);
+    }
 }
 

@@ -1,14 +1,14 @@
-pragma solidity ^0.6.7;
+pragma solidity >=0.5.15 <0.6.0;
 
 import "ds-test/test.sol";
 
 import "./memberadmin.sol";
 
 contract memberadminTest is DSTest {
-    memberadmin memberadmin;
+    MemberAdmin memberAdmin;
 
     function setUp() public {
-        memberadmin = new memberadmin();
+        memberAdmin = new MemberAdmin();
     }
 
     function testFail_basic_sanity() public {
