@@ -27,7 +27,7 @@ contract MemberAdmin is Auth {
         wards[msg.sender] = 1;
     }
 
-    // Admins can manipulate memberlists
+    // Admins can manipulate memberlists, but have to be added and can be removed by any ward on the MemberAdmin contract
     mapping (address => uint) public admins;
 
     modifier admin { require(admins[msg.sender] == 1); _; }
