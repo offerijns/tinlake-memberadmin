@@ -2,7 +2,7 @@ pragma solidity >=0.5.15 <0.6.0;
 
 import "ds-test/test.sol";
 
-import "./memberadmin.sol";
+import "../memberadmin.sol";
 import "./memberlist.mock.sol";
 
 contract MemberAdminTest is DSTest {
